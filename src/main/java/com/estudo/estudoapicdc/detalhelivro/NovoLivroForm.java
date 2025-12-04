@@ -1,7 +1,5 @@
 package com.estudo.estudoapicdc.detalhelivro;
 
-import io.swagger.v3.oas.annotations.media.Content;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,8 +28,8 @@ public class NovoLivroForm {
     private String isbn;
     @NotNull
     private MultipartFile capa;
-    // precisa colocar um autor
-    // seria uma fk ?
+    @NotNull
+    private Long autorId;
 
     public BigDecimal getPreco() {
         return preco;
@@ -80,5 +78,23 @@ public class NovoLivroForm {
     }
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+    public Long getAutorId() {
+        return autorId;
+    }
+    public void setAutorId(Long autorId) {
+        this.autorId = autorId;
+    }
+
+    // private MultifileValidator multifileValidator;
+
+    public Livro novoLivro(AutorRepository autorRepository, Uploader uploader) {
+        Autor autor = autorRepository.findById(autorId).get();
+        String linkCapaLivro = uploader.upload(capa);
+       // if (linkCapaLivro.isEmpty()) {
+//            multifileValidator.multifileEmpty(linkCapaLivro, linkCapaLivro.rejectValue());
+//        }
+        // checar como validar isso posteriormente
+        return new Livro(titulo, subTitulo, preco, conteudo, sumario, numeroPaginas, isbn, linkCapaLivro, autor);
     }
 }
