@@ -19,7 +19,7 @@ public class Livro {
     private @NotBlank String conteudo;
     private @NotBlank String sumario;
     private @Min(100) int numeroPaginas;
-    private @NotBlank String isbn;
+    private @NotBlank @Column(unique = true) String isbn;
     private @NotBlank String linkCapaLivro;
     @ManyToOne
     private @NotNull Autor autor;

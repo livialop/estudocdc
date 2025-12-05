@@ -86,15 +86,10 @@ public class NovoLivroForm {
         this.autorId = autorId;
     }
 
-    // private MultifileValidator multifileValidator;
 
     public Livro novoLivro(AutorRepository autorRepository, Uploader uploader) {
         Autor autor = autorRepository.findById(autorId).get();
         String linkCapaLivro = uploader.upload(capa);
-       // if (linkCapaLivro.isEmpty()) {
-//            multifileValidator.multifileEmpty(linkCapaLivro, linkCapaLivro.rejectValue());
-//        }
-        // checar como validar isso posteriormente
         return new Livro(titulo, subTitulo, preco, conteudo, sumario, numeroPaginas, isbn, linkCapaLivro, autor);
     }
 }
