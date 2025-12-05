@@ -1,5 +1,6 @@
 package com.estudo.estudoapicdc.detalhelivro;
 
+import io.swagger.v3.oas.annotations.media.DependentRequired;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +24,11 @@ public class Livro {
     private @NotBlank String linkCapaLivro;
     @ManyToOne
     private @NotNull Autor autor;
+
+    @Deprecated
+    public Livro() {
+
+    }
 
     public Livro(@NotBlank @Size(max=100) String titulo, @NotBlank @Size(max=50) String subTitulo,
                  @NotBlank @Min(20) BigDecimal preco, @NotBlank String conteudo, @NotBlank String sumario,

@@ -7,10 +7,8 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CrudLivrosController {
@@ -21,6 +19,11 @@ public class CrudLivrosController {
     private Uploader uploader;
     @Autowired
     private LivroRepository livroRepository;
+
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(new IsbnUnicoValidator(livroRepository), new TituloLivroUnicoValidator(livroRepository));
+    }
 
     @PostMapping(value = "/api/livro", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // para o input media
     @Transactional
