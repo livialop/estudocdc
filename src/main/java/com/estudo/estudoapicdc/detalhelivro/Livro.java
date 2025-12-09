@@ -1,6 +1,5 @@
 package com.estudo.estudoapicdc.detalhelivro;
 
-import io.swagger.v3.oas.annotations.media.DependentRequired;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -32,7 +31,7 @@ public class Livro {
 
     public Livro(@NotBlank @Size(max=100) String titulo, @NotBlank @Size(max=50) String subTitulo,
                  @NotBlank @Min(20) BigDecimal preco, @NotBlank String conteudo, @NotBlank String sumario,
-                 @NotBlank int numeroPaginas, @NotBlank String isbn, String linkCapaLivro, @NotNull Autor autor) {
+                 @Min(100) int numeroPaginas, @NotBlank String isbn, String linkCapaLivro, @NotNull Autor autor) {
         this.titulo = titulo;
         this.subTitulo = subTitulo;
         this.preco = preco;
@@ -52,4 +51,15 @@ public class Livro {
                 ", linkCapaLivro=" + linkCapaLivro + ", autor=" + autor + "]";
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
 }
