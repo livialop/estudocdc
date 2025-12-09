@@ -62,4 +62,32 @@ public class Livro {
     public Autor getAutor() {
         return autor;
     }
+
+    public String getSubTitulo() {
+        return subTitulo;
+    }
+
+    public String getLinkCapaLivro() {
+        return linkCapaLivro;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public String getSumario() {
+        return sumario;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public int getNumeroPaginas() {
+        return numeroPaginas;
+    }
 }
