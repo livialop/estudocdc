@@ -1,5 +1,6 @@
 package com.estudo.estudoapicdc.detalhelivro;
 
+import com.estudo.estudoapicdc.shared.Markdown;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -89,5 +90,9 @@ public class Livro {
 
     public int getNumeroPaginas() {
         return numeroPaginas;
+    }
+
+    public String getSumarioMarkdown() {
+        return Markdown.toHtml(getSumario());
     }
 }

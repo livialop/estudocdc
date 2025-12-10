@@ -1,11 +1,9 @@
 package com.estudo.estudoapicdc.site.detalhe;
 
-import com.estudo.estudoapicdc.detalhelivro.Autor;
 import com.estudo.estudoapicdc.detalhelivro.Livro;
-import org.springframework.cglib.core.Local;
+import com.estudo.estudoapicdc.shared.Markdown;
 
 import java.math.BigDecimal;
-import java.net.URL;
 
 public class LivroDetalheDTO {
 
@@ -13,12 +11,13 @@ public class LivroDetalheDTO {
     private String subTitulo;
     private String linkCapaLivro;
     private String conteudo;
-    private String sumario;
+    private String sumarioOriginal;
     private int numeroPaginas;
     private BigDecimal preco;
     private String isbn;
     private AutorLivroDetalheDTO autor;
     private Long id;
+    private String sumarioHtml;
 
 
     public LivroDetalheDTO(Livro livro) {
@@ -26,7 +25,8 @@ public class LivroDetalheDTO {
         subTitulo = livro.getSubTitulo();
         linkCapaLivro = livro.getLinkCapaLivro();
         conteudo = livro.getConteudo();
-        sumario = livro.getSumario();
+        sumarioOriginal = livro.getSumario();
+        sumarioHtml = livro.getSumarioMarkdown(); //Markdown.toHtml(livro.getSumario());
         numeroPaginas = livro.getNumeroPaginas();
         preco = livro.getPreco();
         isbn = livro.getIsbn();
@@ -50,8 +50,8 @@ public class LivroDetalheDTO {
         return conteudo;
     }
 
-    public String getSumario() {
-        return sumario;
+    public String getSumarioOriginal() {
+        return sumarioOriginal;
     }
 
     public int getNumeroPaginas() {
@@ -72,5 +72,9 @@ public class LivroDetalheDTO {
 
     public Long getId() {
         return id;
+    }
+
+    public String getSumarioHtml() {
+        return sumarioHtml;
     }
 }
