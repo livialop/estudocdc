@@ -2,6 +2,7 @@ package com.estudo.estudoapicdc.site.detalhe;
 
 import com.estudo.estudoapicdc.detalhelivro.Livro;
 import com.estudo.estudoapicdc.detalhelivro.LivroRepository;
+import com.estudo.estudoapicdc.shared.Cookies;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,8 @@ public class DetalheLivroController {
 
     @Autowired
     private LivroRepository livroRepository;
+    @Autowired
+    private Cookies cookies;
 
     @GetMapping(value = "/api/livro/{id}")
     @Operation(summary = "Visualização detalhes dos livros")
@@ -28,25 +31,11 @@ public class DetalheLivroController {
 
     @PostMapping(value = "/api/carrinho/{idLivro}")
     public String adicionaLivroCarrinho(@PathVariable("idLivro") Long idLivro, @CookieValue("carrinho") Optional<String> jsonCarrinho, HttpServletResponse response) {
-        Carrinho carrinho = jsonCarrinho.map(json -> {
-            try {
-                String decoded = new String(Base64.getUrlDecoder().decode(json));
-                return new ObjectMapper().readValue(decoded, Carrinho.class);
-            } catch (Exception e) {
-                return new Carrinho();
-            }
-        }).orElse(new Carrinho());
+        Carrinho carrinho = jsonCarrinho.map(Carrinho :: reconstroi).orElse(new Carrinho());
 
         carrinho.adiciona(livroRepository.findById(idLivro).get());
 
-        String json = new ObjectMapper().writeValueAsString(carrinho);
-        String encoded = Base64.getUrlEncoder().encodeToString(json.getBytes());
-
-        Cookie cookie = new Cookie("carrinho", encoded);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-
-        response.addCookie(cookie);
+        cookies.writeAsJson("carrinho", carrinho, response);
 
         return carrinho.toString();
     }
