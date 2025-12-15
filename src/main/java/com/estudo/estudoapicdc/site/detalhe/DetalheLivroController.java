@@ -22,6 +22,7 @@ public class DetalheLivroController {
     @Autowired
     private Cookies cookies;
 
+
     @GetMapping(value = "/api/livro/{id}")
     @Operation(summary = "Visualização detalhes dos livros")
     public LivroDetalheDTO exibeDetalhes(@PathVariable("id") Long id) {
@@ -29,9 +30,10 @@ public class DetalheLivroController {
         return new LivroDetalheDTO(livro);
     }
 
+
     @PostMapping(value = "/api/carrinho/{idLivro}")
     public String adicionaLivroCarrinho(@PathVariable("idLivro") Long idLivro, @CookieValue("carrinho") Optional<String> jsonCarrinho, HttpServletResponse response) {
-        Carrinho carrinho = jsonCarrinho.map(Carrinho :: reconstroi).orElse(new Carrinho());
+        Carrinho carrinho = Carrinho.cria(jsonCarrinho);
 
         carrinho.adiciona(livroRepository.findById(idLivro).get());
 
